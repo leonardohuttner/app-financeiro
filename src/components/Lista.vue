@@ -1,14 +1,21 @@
 <template>
 <div>
+    <h3>R${{ total.toFixed(2).replace('.',',')  }}</h3>
     <div class="q-pa-md">
-        <q-table title="Gastos:" :data="list" dense :columns="columns" row-key="name" />
+        <q-table title="Gastos:" :data="expenses" dense :columns="columns" row-key="name" />
     </div>
+    <div>
 
+    </div>
 </div>
 </template>
 
 <script>
 export default {
+    props: {
+        expenses: {}
+    },
+
     data() {
         return {
             columns: [{
@@ -34,20 +41,29 @@ export default {
                 {
                     name: 'forma',
                     label: 'Forma pagamento',
-                    field: 'forma'
+                    field: 'forma',
+                    sortable: true
                 },
             ],
-            data: [{}]
+            data: [{}],
         }
     },
     computed: {
-        list() {
-            return this.$store.state.Expenses.list
+        total() {
+            return this.expenses.map(p => 1 * p.amount)
+                .reduce((total, atual) => total + atual, 0)
         }
     }
 }
 </script>
 
 <style>
+hr {
+    margin-top: 20px;
+}
 
+.total {
+    display: flex;
+    justify-content: flex-end;
+}
 </style>

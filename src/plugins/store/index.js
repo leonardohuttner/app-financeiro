@@ -7,7 +7,6 @@ export default new Vuex.Store({
     state: {
         Expenses:{
             list:[],
-            user:{}
         },
     },
     mutations:{

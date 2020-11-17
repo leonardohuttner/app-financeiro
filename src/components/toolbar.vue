@@ -9,7 +9,7 @@
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-2">
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-2" v-if="logado">
         <q-list>
             <q-item-label header>Menu</q-item-label>
             <q-item clickable tag="a" to="/geral">
@@ -79,6 +79,10 @@ export default {
     computed: {
         isMobile() {
             return this.$q.platform.is.mobile
+        },
+        logado() {
+            return true
+            //return this.$store.state.Expenses.user.logado
         }
     },
     data() {

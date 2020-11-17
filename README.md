@@ -1,23 +1,20 @@
 # app-financeiro
 
-## Project setup
+### O intuito desde projeto é de estudo. Ajudas,dicas serão bem vindas.
+
+## Apos clonar o projeto execute o codigo para instalar as dependencias
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Para executar a aplicação local com hot reload execute
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Para compilar e minificar a aplicação 
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
 
 ### Customize configuration
