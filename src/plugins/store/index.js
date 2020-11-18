@@ -14,4 +14,9 @@ export default new Vuex.Store({
             state.Expenses.list.unshift(obj)
         }
     },
+    actions:{
+        $_login(){
+            
+        }
+    }
 })

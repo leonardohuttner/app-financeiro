@@ -1,15 +1,16 @@
 <template>
 <q-layout view="lHh lpR fff">
-    <q-header elevated class="bg-blue">
-        <q-toolbar>
+    <q-header elevated class="bg-grey-9">
+        <q-toolbar v-show="!autenticado">
             <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu" />
             <q-toolbar-title>
                 App_
             </q-toolbar-title>
+        <q-btn @click="sair" rounded color="red" size="5px" icon="exit_to_app"></q-btn>
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-2" v-if="logado">
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-2" >
         <q-list>
             <q-item-label header>Menu</q-item-label>
             <q-item clickable tag="a" to="/geral">
@@ -50,10 +51,11 @@
         </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container @mouseenter="leftDrawerOpen = false">
+    <h1 v-if="!autenticado"></h1>
         <router-view></router-view>
     </q-page-container>
-    <q-footer v-if="isMobile">
+    <q-footer v-if="isMobile && !autenticado" class="bg-grey-9">
         <div class="q-gutter-y-md" style="max-width: 1500px">
             <q-tabs inline-label align="justify">
                 <q-route-tab icon="timeline" to="/geral" exact />
@@ -67,6 +69,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
     name: 'toolbar',
 
@@ -74,16 +77,25 @@ export default {
 
     },
     methods: {
-
+        sair(){
+            firebase.auth().signOut.then(()=> {
+                this.$router.replace('login')
+            })
+        },
+        autenticado() {
+            const currentUser = firebase.auth().currentUser
+            if (currentUser === null){
+            return false
+            }else {
+                return true
+            }
+        }
     },
     computed: {
         isMobile() {
             return this.$q.platform.is.mobile
         },
-        logado() {
-            return true
-            //return this.$store.state.Expenses.user.logado
-        }
+        
     },
     data() {
         return {
@@ -94,5 +106,8 @@ export default {
 </script>
 
 <style>
+.brand{
+    background-color: #3e3e3e;
+}
 
 </style>
