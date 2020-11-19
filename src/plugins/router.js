@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import firebase from 'firebase'
 
-import Login from '../components/login/Login.vue'
-import Geral from '../components/geral'
-import Money from '../components/money'
-import Card from '../components/card'
-import Settings from '../components/settings.vue'
-import Register from '../components/registrar/register'
+import Login from '../views/Login'
+import Geral from '../views/geral'
+import Money from '../views/money'
+import Card from '../views/card'
+import Settings from '../views/settings.vue'
+import Register from '../views/register'
 
 Vue.use(Router)
 

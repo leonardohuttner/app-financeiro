@@ -1,6 +1,7 @@
 <template>
 <div class="fundo justify-center row items-center" :style="`height:${sizes()}px;`">
     <title>Entre</title>
+    {{this.isAutenticado()}}
     <q-card class=" card q-mt-sm" style="max-width:600px;">
         <h3 class="q-mt-sm">Entrar</h3>
         <q-input class="q-ma-sm" v-model="email" label="Email:" autofocus style="weight:200px" :style="this.$q.platform.is.ios ? 'font-size:17px' : ''" />
@@ -14,11 +15,16 @@
 </template>
 
 <script>
+import mixins from '../mixins/mixins'
 import firebase from 'firebase'
 // import {Notify} from 'quasar'
 export default {
+    mixins:[
+        mixins
+    ],
     data() {
         return {
+                usuario:{},
                 email: '',
                 senha: '',
         }
@@ -29,7 +35,9 @@ export default {
         login() {
             firebase.auth().signInWithEmailAndPassword(this.email,this.senha).then(
                 (user)=>{
-                    console.log(user)
+                    const usuario = firebase.auth().currentUser
+                    this.$store.commit('LOGIN',usuario)
+                    console.log(user,usuario)
                     this.$router.replace("geral")
                 },
                 (err)=>{
@@ -50,7 +58,7 @@ export default {
     margin-bottom: 20%;
 }
 .fundo{
-    background-image: url("../../assets/money.jpg");
+    background-image: url("/../assets/money.jpg");
     height: 30em;
 
 }

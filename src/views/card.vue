@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import DialogAdd from './adicionar/modalAdd'
-import Lista from './Lista'
+import DialogAdd from '../components/adicionar/modalAdd'
+import Lista from '../components/Lista'
 export default {
     components: {
         Lista,
@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         list() {
-            return this.$store.state.Expenses.list
+            return this.$store.state.User.Expenses.list
         },
     }
 }

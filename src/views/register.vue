@@ -47,7 +47,7 @@ export default {
     margin-bottom: 20%;
 }
 .fundo{
-    background-image: url("../../assets/money.jpg");
+    background-image: url("../assets/money.jpg");
     height: 30em;
 
 }

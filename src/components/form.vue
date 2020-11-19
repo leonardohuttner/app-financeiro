@@ -27,33 +27,41 @@ import moment from 'moment'
 export default {
     data() {
         return {
-            expense: {
-                amount: '',
-                description: '',
-                data: moment().format('DD/MM/YYYY'),
-                forma: '',
-                receita: true,
-                card: '',
-                cards: ['Nubank', 'Digio'],
-                receita_tipo: '',
-                receitas: ['Salario', 'Outro'],
-                despesa_tipo: '',
-                despesas: ['Alimentação', 'Boleto', 'Compras', 'Fatura', 'Investimento', 'Outros'],
-            }
+            id: 0,
+            amount: '',
+            description: '',
+            data: moment().format('DD/MM/YYYY'),
+            forma: '',
+            receita: true,
+            card: '',
+            cards: ['Nubank', 'Digio'],
+            tipo: '',
+            trans_tipo: ['Alimentação', 'Boleto', 'Compras', 'Fatura', 'Investimento', 'Salario', 'Outros'],
         }
     },
     methods: {
         submit() {
-            const cloned = JSON.parse(JSON.stringify(this.expense))
-            this.$store.commit('ADD_EXPENSE', cloned)
-            console.log(this.expense)
+            const expense = {
+                id: this.id,
+                amount: this.amount,
+                description: this.description,
+                data: this.data,
+                forma: this.forma,
+                tipo: this.tipo,
+            }
+            this.$store.state.User.list.commit('ADD_EXPENSE',this.expense)
+            console.log(expense)
             this.reset()
+
+            // const cloned = JSON.parse(JSON.stringify(this.expense))
+            // this.$store.commit('ADD_EXPENSE', cloned)
+            // console.log(this.expense)
 
         },
         reset() {
-            this.expense.amount = '',
-                this.expense.description = '',
-                this.expense.data = moment().format('DD/MM/YYYY')
+            this.amount = '',
+                this.description = '',
+                this.data = moment().format('DD/MM/YYYY')
             this.$refs.amount.focus()
         },
     },

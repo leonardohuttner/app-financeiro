@@ -1,17 +1,21 @@
 <template>
 <q-card class="container">
     <h5>Listas e graficos</h5>
+    <q-btn @click="list">user</q-btn>
     <Lista :expenses="this.list()" />
     <DialogAdd />
 </q-card>
 </template>
 
 <script>
-import Lista from './Lista'
-import DialogAdd from './adicionar/modalAdd'
+import Lista from '../components/Lista'
+import DialogAdd from '../components/adicionar/modalAdd'
+import mixins from '../mixins/mixins'
 export default {
+    mixins: [mixins],
     data() {
         return {
+            input:'',
             abreForm: true,
             openDialog: false,
         }
@@ -21,8 +25,13 @@ export default {
     },
     methods: {
         list() {
-            return this.$store.state.Expenses.list
+            return console.log(this.$store.state.User.list)
         },
+        currentUser(){
+            // const email = this.$store.state.User.email
+            // const nome = this.$store.state.User.displayName
+            return this.isAutenticado()
+        }
     },
     components: {
         Lista,

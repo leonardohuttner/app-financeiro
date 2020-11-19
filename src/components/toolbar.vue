@@ -1,7 +1,7 @@
 <template>
 <q-layout view="lHh lpR fff">
     <q-header elevated class="bg-grey-9">
-        <q-toolbar v-show="!autenticado">
+        <q-toolbar v-show="autenticado">
             <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu" />
             <q-toolbar-title>
                 App_
@@ -55,7 +55,7 @@
     <h1 v-if="!autenticado"></h1>
         <router-view></router-view>
     </q-page-container>
-    <q-footer v-if="isMobile && !autenticado" class="bg-grey-9">
+    <q-footer v-if="isMobile && autenticado" class="bg-grey-9">
         <div class="q-gutter-y-md" style="max-width: 1500px">
             <q-tabs inline-label align="justify">
                 <q-route-tab icon="timeline" to="/geral" exact />
@@ -70,9 +70,10 @@
 
 <script>
 import firebase from 'firebase'
+import mixins from '../mixins/mixins'
 export default {
     name: 'toolbar',
-
+    mixins:[mixins],
     components: {
 
     },
@@ -82,13 +83,8 @@ export default {
                 this.$router.replace('login')
             })
         },
-        autenticado() {
-            const currentUser = firebase.auth().currentUser
-            if (currentUser === null){
-            return false
-            }else {
-                return true
-            }
+        autenticado(){
+            return this.isAutenticado()
         }
     },
     computed: {
