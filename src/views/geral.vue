@@ -1,8 +1,7 @@
 <template>
 <q-card class="container">
     <h5>Listas e graficos</h5>
-    <q-btn @click="list">user</q-btn>
-    <Lista :expenses="this.list()" />
+    <Lista :expenses="this.listCompleta()" />
     <DialogAdd />
 </q-card>
 </template>
@@ -24,8 +23,8 @@ export default {
 
     },
     methods: {
-        list() {
-            return console.log(this.$store.state.User.list)
+        listCompleta() {
+            return this.$store.getters.listCompleta
         },
         currentUser(){
             // const email = this.$store.state.User.email

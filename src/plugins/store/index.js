@@ -9,13 +9,20 @@ export default new Vuex.Store({
             uid:'',
             displayName:'',
             email:'',
-            list:[
-            ],
+            list:[],
         },
     },
     mutations:{
         ADD_EXPENSE(state,obj){
-            state.User.list.unshift(obj)
+            state.User.list.push({
+                    amount: obj.amount,
+                    description: obj.description,
+                    data: obj.data,
+                    forma: obj.forma,
+                    receita: obj.receita,
+                    card: obj.card,
+                    receita_tipo: obj.receita_tipo
+            })
         },
         LOGIN(state,obj){
             state.User.uid = obj.uid
@@ -24,5 +31,8 @@ export default new Vuex.Store({
         }
     },
     actions:{
+    },
+    getters:{
+        listCompleta: state => {return state.User.list}
     }
 })

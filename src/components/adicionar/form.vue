@@ -27,7 +27,7 @@ import moment from 'moment'
 export default {
     data() {
         return {
-            id: 0,
+            //id: 0,
             amount: '',
             description: '',
             data: moment().format('DD/MM/YYYY'),
@@ -42,21 +42,18 @@ export default {
     methods: {
         submit() {
             const expense = {
-                id: this.id,
+                //id: this.id,
                 amount: this.amount,
                 description: this.description,
                 data: this.data,
                 forma: this.forma,
                 tipo: this.tipo,
             }
-            this.$store.state.Expenses.list.push(expense)
-            console.log(expense)
-            this.reset()
+            this.$store.commit('ADD_EXPENSE', expense)
 
             // const cloned = JSON.parse(JSON.stringify(this.expense))
             // this.$store.commit('ADD_EXPENSE', cloned)
             // console.log(this.expense)
-
         },
         reset() {
             this.amount = '',
