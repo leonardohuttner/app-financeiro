@@ -6,17 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         User:{
-            uid:'',
+            _id:'',
             displayName:'',
             email:'',
             logado:false,
             list:[],
+            token:''
         },
     },
     mutations:{
         ADD_EXPENSE(state,obj){
             state.User.list.push({
-                    id: obj.id || '',
+                    _id: obj._id || '',
                     amount: obj.amount,
                     description: obj.description,
                     data: obj.data,
@@ -27,10 +28,11 @@ export default new Vuex.Store({
                 })
         },
         LOGIN(state,obj){
-            state.User.uid = obj.uid
-            state.User.displayName = obj.displayName
-            state.User.email= obj.email
+            state.User._id = obj.user._id
+            state.User.displayName = obj.user.userName
+            state.User.email= obj.user.email
             state.User.logado = true
+            state.User.token= obj.token
         }
     },
     actions:{

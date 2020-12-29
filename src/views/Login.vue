@@ -31,8 +31,18 @@ export default {
     },
     methods:{
         login() {
-
-            
+            const email = this.email
+            const password = this.senha
+            this.$http.post('/users/auth',{email,password},{headers: {
+            'Content-Type': 'application/json'}
+        })
+            .then((res)=>{
+                const usuario = res
+                this.$store.commit('LOGIN',usuario.data)
+                console.log(usuario.data)
+            }).catch((err)=>{
+                console.log(err)
+            })
       },
         sizes(){
         return document.documentElement.clientHeight
