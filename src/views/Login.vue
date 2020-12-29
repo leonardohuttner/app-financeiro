@@ -39,24 +39,29 @@ export default {
             .then(async (res)=>{
                 const usuario = res
                 const idUser = usuario.data.user._id
+                console.log(idUser)
                 this.$store.commit('LOGIN',usuario.data)
                 await this.carregaDados(idUser)
+                await this.sessaoUser(usuario.data)
                 this.$router.push('/geral')
-                console.log(usuario.data)
             }).catch((err)=>{
                 console.log(err)
             })
       },
       carregaDados(idUser){
           const token = this.$store.getters.userLogado
-          console.log(token)
           this.$http.get('/',{headers:{'auth':`${token}`,'user':`${idUser}`}})
           .then((res)=>{
               const despesas = res.data
               this.$store.commit('COMPLETADADOS',despesas)
+              sessionStorage.setItem('despesas',JSON.stringify(despesas))
           }).catch((err)=>{
               console.log(err)
           })
+      },
+      sessaoUser(user){
+              const usuarioAtual = JSON.stringify(user)
+              sessionStorage.setItem('usuario',usuarioAtual)
       },
         sizes(){
         return document.documentElement.clientHeight

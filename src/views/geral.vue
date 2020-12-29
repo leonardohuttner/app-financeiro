@@ -10,6 +10,7 @@
 import Lista from '../components/Lista'
 import DialogAdd from '../components/adicionar/modalAdd'
 import mixins from '../mixins/mixins'
+
 export default {
     mixins: [mixins],
     data() {
@@ -19,12 +20,17 @@ export default {
             openDialog: false,
         }
     },
-    computed: {
-
+    created(){
+        if(sessionStorage.length >= 2){
+            const usuarioAtual = JSON.parse(sessionStorage.getItem('usuario'))
+            const despesas = JSON.parse(sessionStorage.getItem('despesas'))
+            this.$store.commit('LOGIN',usuarioAtual)
+            this.$store.commit('COMPLETADADOS',despesas)
+        }
     },
     methods: {
         listCompleta() {
-            return this.$store.getters.listCompleta
+            return this.$store.getters.listCompleta 
         },
         logado(){
             return console.log(this.$store.getters.userLogado)

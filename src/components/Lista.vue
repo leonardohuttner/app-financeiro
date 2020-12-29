@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h3>R$</h3>
+    <h3>R${{total}}</h3>
     <div class="q-pa-md">
         <q-table title="Gastos:" :data="expenses" dense :columns="columns" row-key="name" />
     </div>
@@ -41,7 +41,7 @@ export default {
                 {
                     name: 'forma',
                     label: 'Forma pagamento',
-                    field: 'forma',
+                    field: 'form',
                     sortable: true
                 },
             ],
@@ -49,10 +49,10 @@ export default {
         }
     },
     computed: {
-        // total() {
-        //     return this.expenses.map(p => 1 * p.amount)
-        //         .reduce((total, atual) => total + atual, 0)
-        // }
+        total() {
+            return this.expenses.map(p => 1 * p.amount)
+                .reduce((total, atual) => total + atual, 0)
+        }
     }
 }
 </script>

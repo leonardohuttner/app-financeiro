@@ -29,15 +29,27 @@ const router = new Router({
     },{
         path:'/geral',
         component: Geral,
+        meta:{
+            requiresAuth:true
+        }
     },{
         path:'/money',
         component: Money,
+        meta:{
+            requiresAuth:true
+        }
     },{
         path:'/card',
         component: Card,
+        meta:{
+            requiresAuth:true
+        }
     },{
         path: '/settings',
         component: Settings,
+        meta:{
+            requiresAuth:true
+        }
     }
 ]
 })

@@ -77,7 +77,12 @@ export default {
 
     },
     methods: {
-        sair(){},
+        sair(){
+            this.$store.commit('LIMPA')
+            sessionStorage.removeItem('usuario')
+            sessionStorage.removeItem('despesas')
+            this.$router.push('/login')
+        },
         autenticado(){
             return this.isAutenticado()
         }
