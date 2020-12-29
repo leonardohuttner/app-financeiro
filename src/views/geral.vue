@@ -26,10 +26,8 @@ export default {
         listCompleta() {
             return this.$store.getters.listCompleta
         },
-        currentUser(){
-            // const email = this.$store.state.User.email
-            // const nome = this.$store.state.User.displayName
-            return this.isAutenticado()
+        logado(){
+            return console.log(this.$store.getters.userLogado)
         }
     },
     components: {

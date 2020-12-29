@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import mixins from '../mixins/mixins'
 export default {
     name: 'toolbar',
@@ -78,11 +77,7 @@ export default {
 
     },
     methods: {
-        sair(){
-            firebase.auth().signOut.then(()=> {
-                this.$router.replace('login')
-            })
-        },
+        sair(){},
         autenticado(){
             return this.isAutenticado()
         }

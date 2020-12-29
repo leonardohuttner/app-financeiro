@@ -1,24 +1,26 @@
 <template>
 <div>
+<q-card>
     <q-card id="adicionar" class="q-gutter-y-md">
         <h5>Adicionar:</h5>
-        <q-input class="input-despesa" ref="amount" filled v-model="amount" placeholder="250,00" type="tel" :style="isIOS ? 'font-size:17px': ''" />
+        <q-input class="input-despesa" ref="amount" filled v-model="amount" placeholder="250,00" type="tel" inputmode="numeric" pattern="[0-9*]" :style="isIOS ? 'font-size:17px': ''" />
         <q-input class="input-despesa" filled v-model="description" placeholder="Descrição" type="text" :style="isIOS ? 'font-size:17px': ''" />
         <div>
-            <q-radio dense v-model="forma" val="Cartão" label="Cartão" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
-            <q-radio dense v-model="forma" val="Dinheiro" label="Dinheiro" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
+            <q-radio dense v-model="forma" val="cartao" label="Cartão" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
+            <q-radio dense v-model="forma" val="dinheiro" label="Dinheiro" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
             <q-select v-show="forma === 'Cartão'" :options="cards" v-model="card" style="width:300px; display: flex" />
         </div>
         <div style="display: flex">
-            <q-radio dense v-model="receita" val=true label="Receita" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
-            <q-radio dense v-model="receita" val=false label="Despesa" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
+            <q-radio dense v-model="receita" val="receita" label="Receita" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
+            <q-radio dense v-model="receita" val="despesa" label="Despesa" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
             <q-select :options="trans_tipo" v-model="tipo" style="width:300px" />
 
         </div>
-        <q-input class="input-despesa" filled v-model="data" type="tel" placeholder="Data:" :style="isIOS ? 'font-size:17px': ''" />
+        <q-input class="input-despesa" filled v-model="data" type="text" placeholder="Data:" :style="isIOS ? 'font-size:17px': ''" />
         <q-btn label="OK" color="primary" class="button" @click="submit" />
         <q-btn label="Cancelar" color="warning" class="button" v-close-popup />
     </q-card>
+</q-card>
 </div>
 </template>
 
@@ -31,8 +33,8 @@ export default {
             amount: '',
             description: '',
             data: moment().format('DD/MM/YYYY'),
-            forma: '',
-            receita: true,
+            forma: 'cartao',
+            receita: 'receita',
             card: '',
             cards: ['Nubank', 'Digio'],
             tipo: '',
@@ -47,13 +49,12 @@ export default {
                 description: this.description,
                 data: this.data,
                 forma: this.forma,
+                card: this.card,
+                receita: this.receita,
                 tipo: this.tipo,
             }
             this.$store.commit('ADD_EXPENSE', expense)
-
-            // const cloned = JSON.parse(JSON.stringify(this.expense))
-            // this.$store.commit('ADD_EXPENSE', cloned)
-            // console.log(this.expense)
+            this.$http.post(`/usuarios/${this.user()}.json`,expense)
         },
         reset() {
             this.amount = '',
@@ -61,6 +62,9 @@ export default {
                 this.data = moment().format('DD/MM/YYYY')
             this.$refs.amount.focus()
         },
+        user(){
+            return this.$store.getters.userLogado
+        }
     },
     computed: {
         isIOS() {
