@@ -28,7 +28,7 @@ export default {
             const email = this.email
             const password = this.senha
             const userName = this.userName
-            this.$http.post('/users/create',{email,password,userName},{headers: {
+            this.$http.post('/users/create/',{email,password,userName},{headers: {
             'Content-Type': 'application/json'}
         })
             .then((res)=>{

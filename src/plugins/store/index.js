@@ -33,6 +33,10 @@ export default new Vuex.Store({
             state.User.email= obj.user.email
             state.User.logado = true
             state.User.token= obj.token
+            state.User.createdAt= obj.user.created
+        },
+        COMPLETADADOS(state,lista){
+            state.User.list = lista
         }
     },
     actions:{
@@ -41,6 +45,6 @@ export default new Vuex.Store({
     },
     getters:{
         listCompleta: state => {return state.User.list},
-        userLogado: state =>{ return state.User.uid }
+        userLogado: state =>{ return state.User.token }
     }
 })

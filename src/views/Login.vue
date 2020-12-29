@@ -36,13 +36,27 @@ export default {
             this.$http.post('/users/auth',{email,password},{headers: {
             'Content-Type': 'application/json'}
         })
-            .then((res)=>{
+            .then(async (res)=>{
                 const usuario = res
+                const idUser = usuario.data.user._id
                 this.$store.commit('LOGIN',usuario.data)
+                await this.carregaDados(idUser)
+                this.$router.push('/geral')
                 console.log(usuario.data)
             }).catch((err)=>{
                 console.log(err)
             })
+      },
+      carregaDados(idUser){
+          const token = this.$store.getters.userLogado
+          console.log(token)
+          this.$http.get('/',{headers:{'auth':`${token}`,'user':`${idUser}`}})
+          .then((res)=>{
+              const despesas = res.data
+              this.$store.commit('COMPLETADADOS',despesas)
+          }).catch((err)=>{
+              console.log(err)
+          })
       },
         sizes(){
         return document.documentElement.clientHeight
