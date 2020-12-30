@@ -1,7 +1,7 @@
 <template>
 <q-layout view="lHh lpR fff">
     <q-header elevated class="bg-grey-9">
-        <q-toolbar v-show="autenticado">
+        <q-toolbar v-show="autenticado()">
             <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu" />
             <q-toolbar-title>
                 App_
@@ -10,7 +10,7 @@
         </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-2" >
+    <q-drawer v-if="autenticado()" v-model="leftDrawerOpen" show-if-above bordered content-class="bg-grey-2" >
         <q-list>
             <q-item-label header>Menu</q-item-label>
             <q-item clickable tag="a" to="/geral">
@@ -52,7 +52,7 @@
     </q-drawer>
 
     <q-page-container @mouseenter="leftDrawerOpen = false">
-    <h1 v-if="!autenticado"></h1>
+    <h1 v-if="autenticado()"></h1>
         <router-view></router-view>
     </q-page-container>
     <q-footer v-if="isMobile && autenticado" class="bg-grey-9">
@@ -84,7 +84,7 @@ export default {
             this.$router.push('/login')
         },
         autenticado(){
-            return this.isAutenticado()
+            return this.$store.getters.logado
         }
     },
     computed: {

@@ -8,11 +8,11 @@
         <div>
             <q-radio dense v-model="forma" val="cartao" label="Cartão" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
             <q-radio dense v-model="forma" val="dinheiro" label="Dinheiro" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
-            <q-select v-show="forma === 'Cartão'" :options="cards" v-model="card" style="width:300px; display: flex" />
+            <q-select v-show="forma === 'cartao'" :options="cards" v-model="card" style="width:300px; display: flex" />
         </div>
         <div style="display: flex">
-            <q-radio dense v-model="receita" val="receita" label="Receita" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
-            <q-radio dense v-model="receita" val="despesa" label="Despesa" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
+            <q-radio dense v-model="receita" val="true" label="Receita" class="q-ma-sm" :style="isIOS ? 'font-size:17px': ''" />
+            <q-radio dense v-model="receita" val="false" label="Despesa" class="q-ma-sm q-pa-sm" :style="isIOS ? 'font-size:17px': ''" />
             <q-select :options="trans_tipo" v-model="tipo" style="width:300px" />
 
         </div>
@@ -29,10 +29,9 @@ import moment from 'moment'
 export default {
     data() {
         return {
-            //id: 0,
             amount: '',
             description: '',
-            data: moment().format('DD/MM/YYYY'),
+            data: '',
             forma: 'cartao',
             receita: 'receita',
             card: '',
@@ -43,18 +42,28 @@ export default {
     },
     methods: {
         submit() {
+            const token = this.tokenID()
+            const idUser = this.idUser()
             const expense = {
-                //id: this.id,
+                user: idUser,
+                name: this.description,
+                expenses:{
                 amount: this.amount,
                 description: this.description,
                 data: this.data,
-                forma: this.forma,
+                form: this.forma,
                 card: this.card,
-                receita: this.receita,
-                tipo: this.tipo,
+                recept: this.receita,
+                type: this.tipo
+                }
             }
-            this.$store.commit('ADD_EXPENSE', expense)
-            this.$http.post(`/usuarios/${this.user()}.json`,expense)
+            this.$store.commit('ADD_EXPENSE', expense.expenses)
+            this.$http.post(`/new`,expense,{headers:{'auth':`${token}`,'user':`${idUser}`}})
+                .then(async (res)=>{
+                    console.log(expense, res)
+                }).catch((err=>{
+                    console.log(err)
+            }))
         },
         reset() {
             this.amount = '',
@@ -62,8 +71,11 @@ export default {
                 this.data = moment().format('DD/MM/YYYY')
             this.$refs.amount.focus()
         },
-        user(){
-            return this.$store.getters.userLogado
+        tokenID(){
+            return this.$store.getters.tokenUser
+        },
+        idUser(){
+            return this.$store.getters.idUser
         }
     },
     computed: {

@@ -43,7 +43,11 @@ export default {
                     label: 'Forma pagamento',
                     field: 'form',
                     sortable: true
-                },
+                },{
+                    name:'type',
+                    label: 'Tipo',
+                    field: 'type'
+                }
             ],
             data: [{}],
         }

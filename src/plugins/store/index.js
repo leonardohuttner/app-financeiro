@@ -13,6 +13,9 @@ export default new Vuex.Store({
             list:[],
             token:''
         },
+        Config:{
+            salario:''
+        }
     },
     mutations:{
     ADD_EXPENSE(state,obj){
@@ -46,6 +49,10 @@ export default new Vuex.Store({
             state.User.token= ''
             state.User.createdAt= ''
             state.User.list=[]
+            state.Config.salario=''
+    },
+    SETCONFIG(state,obj){
+        state.Config.salario = obj.salario
     }
 },
     actions:{
@@ -54,6 +61,8 @@ export default new Vuex.Store({
     },
     getters:{
         listCompleta: state => {return state.User.list},
-        userLogado: state =>{ return state.User.token }
+        tokenUser: state =>{ return state.User.token },
+        idUser: state => {return state.User._id},
+        logado: state => {return state.User.logado}
     }
 })

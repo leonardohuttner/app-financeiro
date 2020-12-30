@@ -49,7 +49,7 @@ export default {
             })
       },
       carregaDados(idUser){
-          const token = this.$store.getters.userLogado
+          const token = this.$store.getters.tokenUser
           this.$http.get('/',{headers:{'auth':`${token}`,'user':`${idUser}`}})
           .then((res)=>{
               const despesas = res.data
@@ -67,7 +67,7 @@ export default {
         return document.documentElement.clientHeight
         },
         logado(){
-            return this.$store.getters.userLogado
+            return this.$store.getters.tokenUser
         }
     },
 }

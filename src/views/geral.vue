@@ -33,7 +33,7 @@ export default {
             return this.$store.getters.listCompleta 
         },
         logado(){
-            return console.log(this.$store.getters.userLogado)
+            return console.log(this.$store.getters.tokenUser)
         }
     },
     components: {
