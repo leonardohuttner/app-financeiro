@@ -15,7 +15,7 @@
 
 <script>
 import mixins from '../mixins/mixins'
-// import {Notify} from 'quasar'
+
 export default {
     mixins:[
         mixins

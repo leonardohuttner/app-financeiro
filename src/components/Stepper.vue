@@ -67,7 +67,6 @@
     >
         <q-card class="full-width q-pa-md" style="margin-bottom:5px">
             <h4 style="margin-top:5px">Dados financeiros:</h4>
-            <q-btn @click="showNotif()">teste</q-btn>
 
             <q-input
                 class="q-ma-sm"
@@ -77,15 +76,36 @@
                 filled
                 :style="this.$q.platform.is.ios ? 'font-size:17px' : ''"
             />
-
-            <q-input
-                class="q-ma-sm"
-                v-model="config.salario"
-                label="Salario:"
-                style="weight:200px"
+            
+            <q-select
+                label="Categorias:"
                 filled
+                class="q-ma-sm"
+                style="weight:200px"
+                v-model="config.categories"
+                use-input
+                use-chips
+                multiple
+                hide-dropdown-icon
+                input-debounce="0"
+                @new-value="createValue"
                 :style="this.$q.platform.is.ios ? 'font-size:17px' : ''"
             />
+            
+            <q-select
+                label="Digite suas formas de pagamento:"
+                filled
+                style="weight:200px"
+                class="q-ma-sm"
+                v-model="config.wallet"
+                use-input
+                use-chips
+                multiple
+                hide-dropdown-icon
+                input-debounce="0"
+                @new-value="createValue"
+                :style="this.$q.platform.is.ios ? 'font-size:17px' : ''"
+    />
         </q-card>
     </q-step>
 
@@ -116,7 +136,7 @@
 export default {
     data(){
         return{
-            step:1,
+            step:2,
             confirmaSenha:'',
             user:{
                 username:'',
@@ -124,7 +144,9 @@ export default {
                 password:'',
             },
             config:{
-                salario:''
+                salario:'',
+                wallet:["Dinheiro","Cartão de credito 1"],
+                categories:["Alimentação","Boletos","Casa"]
             }
         }
     },
@@ -170,10 +192,27 @@ export default {
       },
         gravaDadosSecao(){
             this.$store.commit('SETCONFIG',this.config)
+            this.$q.notify({
+                    color:'green',
+                    message:`Dados salvos!`,
+                    position:'top-right'
+                })
+            }
         },
+        createValue (val, done) {
+        // specific logic to eventually call done(...) -- or not
+            done(val, 'add-unique')
+        // done callback has two optional parameters:
+        //  - the value to be added
+        //  - the behavior (same values of new-value-mode prop,
+        //    and when it is specified it overrides that prop –
+        //    if it is used); default behavior (if not using
+        //    new-value-mode) is to add the value even if it would
+        //    be a duplicate
     }
+  }
 
-}
+
 </script>
 
 <style>

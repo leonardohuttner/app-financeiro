@@ -14,7 +14,14 @@ export default new Vuex.Store({
             token:''
         },
         Config:{
-            salario:''
+            salario:'',
+            wallet:[],
+            categories:[
+                {nome:'Alimentação'},
+                {nome:'Compras'},
+                {nome:'Salario'},
+                {nome:'Investimentos'}
+            ]
         }
     },
     mutations:{
@@ -24,10 +31,10 @@ export default new Vuex.Store({
                     amount: obj.amount,
                     description: obj.description,
                     data: obj.data,
-                    form: obj.forma,
-                    recept: obj.receita,
+                    form: obj.form,
+                    recept: obj.recept,
                     card: obj.card,
-                    receita_tipo: obj.receita_tipo
+                    receita_tipo: obj.type
                 })
     },
     LOGIN(state,obj){
@@ -53,6 +60,8 @@ export default new Vuex.Store({
     },
     SETCONFIG(state,obj){
         state.Config.salario = obj.salario
+        state.Config.wallet = obj.wallet
+        state.Config.categories = obj.categories
     }
 },
     actions:{
