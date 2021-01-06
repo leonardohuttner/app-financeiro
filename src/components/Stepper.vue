@@ -49,7 +49,7 @@
                 @keypress.enter="signUp"
                 type="password"
                 v-model="confirmaSenha"
-                label="Senha:"
+                label="Repita a senha:"
                 filled
                 style="weight:200px"
                 :rules="[val => (val === this.user.senha) || 'Senha não confere']"
@@ -136,7 +136,7 @@
 export default {
     data(){
         return{
-            step:2,
+            step:1,
             confirmaSenha:'',
             user:{
                 username:'',
@@ -171,6 +171,7 @@ export default {
             'Content-Type': 'application/json'}})
             .then((res,err)=>{
                 const usuario = res.data
+                this.$store.commit('LOGIN',usuario)
                 this.$refs.stepper.next()
                 console.log(err)
                 this.$q.notify({
@@ -191,7 +192,15 @@ export default {
             }
       },
         gravaDadosSecao(){
+            const token = this.$store.getters.tokenUser
+            const idUser = this.$store.getters.idUser
             this.$store.commit('SETCONFIG',this.config)
+            this.$http.post('/config',{'user':`${idUser}`,'configs': this.config},{headers:{'auth':`${token}`,'user':`${idUser}`}})
+            .then(async(res)=>{
+                console.log(res)
+            }).catch((err)=>{
+                console.log(err)
+            })
             this.$q.notify({
                     color:'green',
                     message:`Dados salvos!`,

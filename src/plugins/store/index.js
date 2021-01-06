@@ -16,12 +16,7 @@ export default new Vuex.Store({
         Config:{
             salario:'',
             wallet:[],
-            categories:[
-                {nome:'Alimentação'},
-                {nome:'Compras'},
-                {nome:'Salario'},
-                {nome:'Investimentos'}
-            ]
+            categories:[]
         }
     },
     mutations:{
@@ -45,8 +40,9 @@ export default new Vuex.Store({
             state.User.token= obj.token
             state.User.createdAt= obj.user.created
     },
-    COMPLETADADOS(state,lista){
-        state.User.list = lista
+    COMPLETADADOS(state,obj){
+        state.User.list = obj.lista
+        state.User.Config= obj.configs
     },
     LIMPA(state){
             state.User._id = ''
