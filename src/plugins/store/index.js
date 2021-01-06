@@ -41,8 +41,12 @@ export default new Vuex.Store({
             state.User.createdAt= obj.user.created
     },
     COMPLETADADOS(state,obj){
-        state.User.list = obj.lista
-        state.User.Config= obj.configs
+        state.User.list = obj
+    },
+    CARREGACONFIG(state,obj){
+        state.Config.wallet = obj.wallet
+        state.Config.categories = obj.categories
+        state.Config.salario = obj.salario
     },
     LIMPA(state){
             state.User._id = ''
@@ -53,11 +57,11 @@ export default new Vuex.Store({
             state.User.createdAt= ''
             state.User.list=[]
             state.Config.salario=''
+            state.Config.wallet=[]
+            state.Config.categories=[]
     },
     SETCONFIG(state,obj){
         state.Config.salario = obj.salario
-        state.Config.wallet = obj.wallet
-        state.Config.categories = obj.categories
     }
 },
     actions:{

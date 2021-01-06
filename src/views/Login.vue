@@ -30,7 +30,7 @@ export default {
     computed:{
     },
     methods:{
-        login() {
+    login() {
             const email = this.email
             const password = this.senha
             this.$http.post('/users/auth',{email,password},{headers: {
@@ -39,16 +39,16 @@ export default {
             .then(async (res)=>{
                 const usuario = res
                 const idUser = usuario.data.user._id
-                console.log(idUser)
                 this.$store.commit('LOGIN',usuario.data)
                 await this.carregaDados(idUser)
+                await this.carregaConfig(idUser)
                 await this.sessaoUser(usuario.data)
                 this.$router.push('/geral')
             }).catch((err)=>{
                 console.log(err)
             })
       },
-      carregaDados(idUser){
+    carregaDados(idUser){
           const token = this.$store.getters.tokenUser
           this.$http.get('/',{headers:{'auth':`${token}`,'user':`${idUser}`}})
           .then((res)=>{
@@ -59,14 +59,25 @@ export default {
               console.log(err)
           })
       },
-      sessaoUser(user){
+      carregaConfig(idUser){
+        const token = this.$store.getters.tokenUser
+        this.$http.get('/config',{headers:{'auth':`${token}`,'user':`${idUser}`}})
+        .then((res)=>{
+            const config = res.data
+            sessionStorage.setItem('config',JSON.stringify(config))
+            this.$store.commit('CARREGACONFIG',config)
+        }).catch((err)=>{
+            console.log(err)
+        })
+      },
+    sessaoUser(user){
               const usuarioAtual = JSON.stringify(user)
               sessionStorage.setItem('usuario',usuarioAtual)
       },
-        sizes(){
+    sizes(){
         return document.documentElement.clientHeight
         },
-        logado(){
+    logado(){
             return this.$store.getters.tokenUser
         }
     },
