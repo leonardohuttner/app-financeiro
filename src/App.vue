@@ -25,5 +25,6 @@ h4,
 h5,
 h6 {
     text-align: center;
+    margin: 0px;
 }
 </style>

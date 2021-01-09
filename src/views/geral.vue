@@ -1,6 +1,6 @@
 <template>
 <q-card class="container">
-    <h5>Listas e graficos</h5>
+    <h3>Listas e graficos</h3>
     <Lista :expenses="this.listCompleta()" />
     <DialogAdd />
 </q-card>
@@ -24,8 +24,10 @@ export default {
         if(sessionStorage.length >= 2){
             const usuarioAtual = JSON.parse(sessionStorage.getItem('usuario'))
             const despesas = JSON.parse(sessionStorage.getItem('despesas'))
+            const config = JSON.parse(sessionStorage.getItem('geral'))
             this.$store.commit('LOGIN',usuarioAtual)
             this.$store.commit('COMPLETADADOS',despesas)
+            this.$store.commit('CARREGACONFIG',config)
         }
     },
     methods: {

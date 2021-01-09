@@ -60,15 +60,13 @@ export default new Vuex.Store({
             state.Config.wallet=[]
             state.Config.categories=[]
     },
-    SETCONFIG(state,obj){
-        state.Config.salario = obj.salario
-    }
 },
     actions:{
         carregaDados(){
         }
     },
     getters:{
+        carregaConfig: state=> {return state.Config},
         listCompleta: state => {return state.User.list},
         tokenUser: state =>{ return state.User.token },
         idUser: state => {return state.User._id},

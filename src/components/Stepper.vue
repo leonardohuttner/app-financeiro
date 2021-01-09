@@ -194,7 +194,7 @@ export default {
         gravaDadosSecao(){
             const token = this.$store.getters.tokenUser
             const idUser = this.$store.getters.idUser
-            this.$store.commit('SETCONFIG',this.config)
+            this.$store.commit('CARREGACONFIG',this.config)
             this.$http.post('/config',{'user':`${idUser}`,'configs': this.config},{headers:{'auth':`${token}`,'user':`${idUser}`}})
             .then(async(res)=>{
                 console.log(res)
