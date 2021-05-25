@@ -16,7 +16,7 @@
 
             <q-input
                 class="q-ma-sm"
-                v-model="user.username"
+                v-model="user.nome"
                 label="*Nome:"
                 style="weight:200px"
                 autofocus 
@@ -121,7 +121,7 @@
         <q-stepper-navigation>
           <q-btn @click="signUp()" color="primary" label="Criar" v-if="step===1" />
           <q-btn @click="$refs.stepper.next(),gravaDadosSecao()" color="primary" label="Salvar" v-else-if="step===2" />
-          <q-btn color="secondary"  to="/login" class="q-ma-xs">Retornar ao Login</q-btn>
+          <q-btn color="purple"  to="/login" class="q-ma-xs">Retornar ao Login</q-btn>
           <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
     </template>
@@ -139,9 +139,9 @@ export default {
             step:1,
             confirmaSenha:'',
             user:{
-                username:'',
+                nome:'',
                 email:'',
-                password:'',
+                senha:'',
             },
             config:{
                 salario:'',
@@ -156,10 +156,10 @@ export default {
     methods:{
         signUp() {
             const email = this.user.email
-            const password = this.user.senha
-            const username = this.user.username
+            const senha = this.user.senha
+            const nome = this.user.nome
 
-            if(!email || !password || !username) {
+            if(!email || !senha || !nome) {
                 this.$q.notify({
                     color:'red',
                     message:'Revise o campos!',
@@ -167,7 +167,7 @@ export default {
                     position:'top-right'
                 })
             }else{
-            this.$http.post('/users/create/',{email,password,username},{headers: {
+            this.$http.post('/usuarios/cadastro/',{email,senha,nome},{headers: {
             'Content-Type': 'application/json'}})
             .then((res,err)=>{
                 const usuario = res.data

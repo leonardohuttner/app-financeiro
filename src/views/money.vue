@@ -19,7 +19,7 @@ export default {
     },
     methods:{
         obj(){
-            return console.log(this.$store.state.User)
+            return console.log(this.$store.state.usuario)
         }
     }
 }

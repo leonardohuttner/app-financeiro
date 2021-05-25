@@ -5,12 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        User:{
-            _id:'',
-            displayName:'',
+        usuario:{
+            id_usuario:'',
+            nome:'',
             email:'',
+            isAdmin:0,
             logado:false,
-            list:[],
+            lancamentos:[],
             token:''
         },
         Config:{
@@ -21,27 +22,27 @@ export default new Vuex.Store({
     },
     mutations:{
     ADD_EXPENSE(state,obj){
-            state.User.list.push({
-                    _id: obj._id,
-                    amount: obj.amount,
-                    description: obj.description,
-                    data: obj.data,
-                    form: obj.form,
-                    recept: obj.recept,
-                    card: obj.card,
-                    receita_tipo: obj.type
+            state.usuario.lancamentos.push({
+                    id_lancamento: obj.id_lancamento,
+                    descricao_lanc: obj.descricao_lanc,
+                    valor_lanc: obj.valor_lanc,
+                    data_lanc: obj.data_lanc,
+                    forma_pag: obj.forma_pag,
+                    tipo_lancamento: obj.tipo_lancamento,
+                    categoria_lanc: obj.categoria_lanc,
+                    cartao: obj.cartao
                 })
     },
     LOGIN(state,obj){
-            state.User._id = obj.user._id
-            state.User.displayName = obj.user.userName
-            state.User.email= obj.user.email
-            state.User.logado = true
-            state.User.token= obj.token
-            state.User.createdAt= obj.user.created
+            state.usuario.id_usuario = obj.id_usuario
+            state.usuario.nome = obj.nome
+            state.usuario.email= obj.email
+            state.usuario.logado = true
+            state.usuario.token= obj.token
+            state.usuario.isAdmin = obj.isAdmin
     },
     COMPLETADADOS(state,obj){
-        state.User.list = obj
+        state.usuario.lancamentos = obj
     },
     CARREGACONFIG(state,obj){
         state.Config.wallet = obj.wallet
@@ -49,13 +50,13 @@ export default new Vuex.Store({
         state.Config.salario = obj.salario
     },
     LIMPA(state){
-            state.User._id = ''
-            state.User.displayName = ''
-            state.User.email= ''
-            state.User.logado = false
-            state.User.token= ''
-            state.User.createdAt= ''
-            state.User.list=[]
+            state.usuario.id_usuario = ''
+            state.usuario.nome = ''
+            state.usuario.email= ''
+            state.usuario.logado = false
+            state.usuario.token= ''
+            state.usuario.createdAt= ''
+            state.usuario.list=[]
             state.Config.salario=''
             state.Config.wallet=[]
             state.Config.categories=[]
@@ -67,9 +68,12 @@ export default new Vuex.Store({
     },
     getters:{
         carregaConfig: state=> {return state.Config},
-        listCompleta: state => {return state.User.list},
-        tokenUser: state =>{ return state.User.token },
-        idUser: state => {return state.User._id},
-        logado: state => {return state.User.logado}
+        getSalario: state=> {return state.Config.salario},
+        listaCompleta: state => {return state.usuario.lancamentos},
+        tokenUser: state =>{ return state.usuario.token },
+        idUser: state => {return state.usuario.id_usuario},
+        logado: state => {return state.usuario.logado},
+        isAdmin: state => {return state.usuario.isAdmin},
+        getNome: state => { return state.usuario.nome}
     }
 })

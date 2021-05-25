@@ -27,30 +27,36 @@ export default {
                 senha: '',
         }
     },
-    computed:{
+    created(){
+        if(sessionStorage.getItem('usuario')){
+            const usuario = sessionStorage.getItem('usuario')
+            this.$store.commit('LOGIN',usuario)
+            this.$router.push('/geral')
+        }
     },
     methods:{
     login() {
             const email = this.email
-            const password = this.senha
-            this.$http.post('/users/auth',{email,password},{headers: {
+            const senha = this.senha
+            this.$http.post('/usuarios/login',{email,senha},{headers: {
             'Content-Type': 'application/json'}
         })
             .then(async (res)=>{
-                const usuario = res
-                const idUser = usuario.data.user._id
-                this.$store.commit('LOGIN',usuario.data)
-                await this.carregaDados(idUser)
-                await this.carregaConfig(idUser)
-                await this.sessaoUser(usuario.data)
+                const usuario = res.data.usuario
+                this.$store.commit('LOGIN',usuario)
+                await this.carregaDados()
+                //await this.carregaConfig(idUser)
+                await this.sessaoUser(usuario)
                 this.$router.push('/geral')
             }).catch((err)=>{
                 console.log(err)
             })
-      },
-    carregaDados(idUser){
+    },
+    
+    carregaDados(){
           const token = this.$store.getters.tokenUser
-          this.$http.get('/',{headers:{'auth':`${token}`,'user':`${idUser}`}})
+          const id_usuario = this.$store.getters.idUser
+          this.$http.get(`/lancamentos/${id_usuario}`,{headers:{'auth':`${token}`}})
           .then((res)=>{
               const despesas = res.data
               this.$store.commit('COMPLETADADOS',despesas)
@@ -59,17 +65,17 @@ export default {
               console.log(err)
           })
       },
-      carregaConfig(idUser){
-        const token = this.$store.getters.tokenUser
-        this.$http.get('/config',{headers:{'auth':`${token}`,'user':`${idUser}`}})
-        .then((res)=>{
-            const config = res.data
-            sessionStorage.setItem('config',JSON.stringify(config))
-            this.$store.commit('CARREGACONFIG',config)
-        }).catch((err)=>{
-            console.log(err)
-        })
-      },
+    //   carregaConfig(id_usuario){
+    //     const token = this.$store.getters.tokenUser
+    //     this.$http.get(`/config/${id_usuario}`,{headers:{'auth':`${token}`}})
+    //     .then((res)=>{
+    //         const config = res.data
+    //         sessionStorage.setItem('config',JSON.stringify(config))
+    //         this.$store.commit('CARREGACONFIG',config)
+    //     }).catch((err)=>{
+    //         console.log(err)
+    //     })
+    //   },
     sessaoUser(user){
               const usuarioAtual = JSON.stringify(user)
               sessionStorage.setItem('usuario',usuarioAtual)

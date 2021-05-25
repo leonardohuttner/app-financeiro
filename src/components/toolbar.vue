@@ -1,6 +1,6 @@
 <template>
 <q-layout view="lHh lpR fff">
-    <q-header elevated class="bg-grey-9">
+    <q-header elevated :class="isAdmin ? 'bg-red-9' : 'bg-grey-9'">
         <q-toolbar v-show="autenticado()">
             <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu" />
             <q-toolbar-title>
@@ -48,6 +48,14 @@
                     <q-item-label>Configurações</q-item-label>
                 </q-item-section>
             </q-item>
+            <q-item clickable tag="a" to="/panel" v-if="isAdmin">
+                <q-item-section avatar>
+                    <q-icon name="lock" />
+                </q-item-section>
+                <q-item-section>
+                    <q-item-label>Painel ADM</q-item-label>
+                </q-item-section>
+            </q-item>
         </q-list>
     </q-drawer>
 
@@ -81,10 +89,14 @@ export default {
             this.$store.commit('LIMPA')
             sessionStorage.removeItem('usuario')
             sessionStorage.removeItem('despesas')
+            sessionStorage.removeItem('config')
             this.$router.push('/login')
         },
         autenticado(){
             return this.$store.getters.logado
+        },
+        isAdmin(){
+            return this.$store.getters.isAdmin == 1
         }
     },
     computed: {

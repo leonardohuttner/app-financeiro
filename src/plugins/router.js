@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Store from '../plugins/store/index'
 
 import Login from '../views/Login'
 import Geral from '../views/geral'
@@ -7,6 +8,8 @@ import Money from '../views/money'
 import Card from '../views/card'
 import Settings from '../views/settings.vue'
 import Register from '../views/register'
+import Panel from '../views/panel'
+import notFound from '../views/404'
 
 Vue.use(Router)
 
@@ -15,14 +18,14 @@ const router = new Router({
     routes: [
     {
         path:'*',
-        redirect:'/login'
+        component: notFound
     },{
         path:'/',
         redirect:'/login'
     },
     {
         path:'/login',
-        component:Login
+        component: Login
     },{
         path: '/register',
         component: Register
@@ -50,8 +53,23 @@ const router = new Router({
         meta:{
             requiresAuth:true
         }
+    },{
+        path: '/panel',
+        component: Panel,
+        meta:{
+            requiresAuth:true
+        }
     }
 ]
+})
+
+router.beforeEach((to,from,next)=> {
+    const currentUser = Store.getters.logado
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+    if(requiresAuth && !currentUser) next('login');
+    else if(!requiresAuth && currentUser) next('geral')
+    else next();
 })
 
 export default router
