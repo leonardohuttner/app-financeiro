@@ -7,6 +7,9 @@ import moment from 'moment'
 import VueApexCharts from 'vue-apexcharts'
 Vue.component('apexchart', VueApexCharts)
 
+import ToggleButton from 'vue-js-toggle-button'
+Vue.use(ToggleButton)
+
 import './quasar'
 import './plugins/axios'
 

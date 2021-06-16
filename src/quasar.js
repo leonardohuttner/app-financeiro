@@ -5,5 +5,5 @@ import { Quasar,Notify } from 'quasar'
 
 Vue.use(Quasar, {
   config: {},
-  plugins: { Notify  }
+  plugins: { Notify }
  })

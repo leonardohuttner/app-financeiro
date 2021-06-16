@@ -17,7 +17,6 @@ export default {
         return {
             input:'',
             abreForm: true,
-            openDialog: false,
         }
     },
     created(){

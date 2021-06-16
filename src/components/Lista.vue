@@ -15,7 +15,6 @@
             <h3>R${{formataBRL(this.getDespesas())}} </h3>
         </q-card>
     </div>
-
     <div class="row">
         <q-card class="col shadow-3 graficos q-ma-xs">
             <apexchart width="100%" height="80%" type="donut" :series="donut.series" :options="donut.options" />
@@ -24,7 +23,25 @@
             <apexchart  width="100%" height="80%" type="bar" :series="bar.series" :options="bar.options" />
         </q-card>   
     </div>
-    <div class="col-12 q-pa-md">
+    <div v-if="isMobile()" class="col-12 q-pa-md">
+        <q-card id="card_despesas" v-for="expense in expenses" :key="expense.id" :class="expense.tipo_lancamento == 'despesa' ? 'bg-red-2 q-ma-xs' : 'bg-green-2 q-ma-xs'">
+            <q-card-section>
+                <q-icon name='account_balance'/>
+                {{expense.categoria_lanc}}
+            </q-card-section>
+            <q-card-section>
+                {{expense.descricao_lanc}}
+            </q-card-section>
+            <q-card-section>
+                {{expense.valor_lanc}}
+            </q-card-section>
+            <q-card-actions align="around">
+                <q-btn icon="delete"/>
+                <q-btn icon="mode_edit"/>
+            </q-card-actions>
+        </q-card>
+    </div>
+    <div v-else class="col-12 q-pa-md">
         <q-table title="Lançamentos:" :data="expenses" dense :columns="columns" row-key="name" />
     </div>
 </div>
@@ -135,6 +152,9 @@ export default {
         }
     },
     methods:{
+        isMobile(){
+            return this.$q.platform.is.mobile
+        },
         formataBRL(value){
             return value.toFixed(2).replace('.',',')
         },
@@ -200,5 +220,11 @@ hr {
     display: inline-block;
     justify-content: center;
     padding: 0px;
+}
+#card_despesas{
+    width: 100%;
+    max-width: 70rem;
+    height: 6rem;
+    overflow: hidden;
 }
 </style>
