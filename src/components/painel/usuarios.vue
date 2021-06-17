@@ -33,7 +33,7 @@
             </q-item-label>
           </q-item-section>
           <q-item-actions horizontal>
-            <toggle-button v-model="funcionalidade.valor"/>
+            <toggle-button v-model="funcionalidade.valor" @change="ativarDesativar(funcionalidade.id)"/>
             <q-btn flat round icon="mode_edit" @click="editFuncionalidade = true"/>
             <q-btn flat round icon="delete" @click="deletarFuncionalidade(funcionalidade.id)"/>
           </q-item-actions>
@@ -138,6 +138,26 @@ export default {
             position:'top-right'
              })
            })
+    },
+    ativarDesativar(id){
+      this.$http.post(`/funcionalidade/alterar/${id}`)
+        .then(async (res)=>{
+        this.$q.notify({
+          color:'green',
+          message: res.data.message,
+          title:res.data.message,
+            position:'top-right'
+          })
+        this.popularFuncionalidades()
+      }).catch((err)=>{
+        console.log('Erro log: '+err.message)
+        this.$q.notify({
+          color:'red',
+          message:err.message,
+          position:'top-right'
+           })
+          })
+        this.popularFuncionalidades()
     }
   }, 
 }
