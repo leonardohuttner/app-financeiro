@@ -11,52 +11,7 @@
         icon="person"
         :done="step > 1"
     >
-        <q-card class="full-width q-pa-md" style="margin-bottom:5px">
-            <h4 style="margin-top:5px">Registre-se</h4>
-
-            <q-input
-                class="q-ma-sm"
-                v-model="user.nome"
-                label="*Nome:"
-                style="weight:200px"
-                autofocus 
-                filled
-                :rules="[val => !!val || 'Campo Obrigatorio*']"
-                :style="this.$q.platform.is.ios ? 'font-size:17px' : ''"
-            />
-
-            <q-input
-                class="q-ma-sm"
-                v-model="user.email"
-                label="*Email:"
-                style="weight:200px"
-                filled
-                :rules="[val => !!val || 'Campo Obrigatorio*']"
-                :style="this.$q.platform.is.ios ? 'font-size:17px' : ''"
-            />
-            <q-input
-                class="q-ma-sm"
-                @keypress.enter="signUp"
-                type="password"
-                v-model="user.senha"
-                label="Senha:"
-                filled
-                style="weight:200px"
-                :style="this.$q.platform.is.ios ? 'font-size:17px' : ''"
-            />
-            <q-input 
-                class="q-ma-sm"
-                @keypress.enter="signUp"
-                type="password"
-                v-model="confirmaSenha"
-                label="Repita a senha:"
-                filled
-                style="weight:200px"
-                :rules="[val => (val === this.user.senha) || 'Senha não confere']"
-                :style="this.$q.platform.is.ios ? 'font-size:17px' : ''" 
-                />
-                <p><strong>*</strong>Campos obrigatórios.</p>
-        </q-card>
+    <registraUsuario v-on:newuser="proximo()"/>
     </q-step>
 
     <q-step
@@ -120,7 +75,7 @@
     <template v-slot:navigation>
         <q-stepper-navigation>
           <q-btn @click="signUp()" color="primary" label="Criar" v-if="step===1" />
-          <q-btn @click="$refs.stepper.next(),gravaDadosSecao()" color="primary" label="Salvar" v-else-if="step===2" />
+          <q-btn @click="gravaDadosSecao()" color="primary" label="Salvar" v-else-if="step===2" />
           <q-btn color="purple"  to="/login" class="q-ma-xs">Retornar ao Login</q-btn>
           <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
@@ -129,7 +84,7 @@
 </template>
 
 <script>
-//import Register from "../components/registrar/register"
+import registraUsuario from "../components/registrar/register"
 //import Financeiro from "../components/registrar/financeiro"
 
 
@@ -137,12 +92,6 @@ export default {
     data(){
         return{
             step:1,
-            confirmaSenha:'',
-            user:{
-                nome:'',
-                email:'',
-                senha:'',
-            },
             config:{
                 salario:'',
                 wallet:["Dinheiro","Cartão de credito 1"],
@@ -150,63 +99,12 @@ export default {
             }
         }
     },
-    // components: {
-    //     Register,Financeiro
-    // },
+    components: {
+        registraUsuario
+    },
     methods:{
-        signUp() {
-            const email = this.user.email
-            const senha = this.user.senha
-            const nome = this.user.nome
-
-            if(!email || !senha || !nome) {
-                this.$q.notify({
-                    color:'red',
-                    message:'Revise o campos!',
-                    title:'Erro!',
-                    position:'top-right'
-                })
-            }else{
-            this.$http.post('/usuarios/cadastro/',{email,senha,nome},{headers: {
-            'Content-Type': 'application/json'}})
-            .then((res,err)=>{
-                const usuario = res.data
-                this.$store.commit('LOGIN',usuario)
-                this.$refs.stepper.next()
-                console.log(err)
-                this.$q.notify({
-                    color:'green',
-                    message:usuario.message,
-                    title:"Sucesso!",
-                    position:'top-right'
-                    })
-                })
-            .catch((err)=>{
-                console.log('Erro log: '+err.message)
-                this.$q.notify({
-                    color:'red',
-                    message:err.message=== 'Request failed with status code 400' ? 'Usuario já existente' : err.message,
-                    position:'top-right'
-                })
-                })
-            }
-      },
-        gravaDadosSecao(){
-            const token = this.$store.getters.tokenUser
-            const idUser = this.$store.getters.idUser
-            this.$store.commit('CARREGACONFIG',this.config)
-            this.$http.post('/config',{'user':`${idUser}`,'configs': this.config},{headers:{'auth':`${token}`,'user':`${idUser}`}})
-            .then(async(res)=>{
-                console.log(res)
-            }).catch((err)=>{
-                console.log(err)
-            })
-            this.$q.notify({
-                    color:'green',
-                    message:`Dados salvos!`,
-                    position:'top-right'
-                })
-            }
+        proximo(){
+            return this.$refs.stepper.next()
         },
         createValue (val, done) {
         // specific logic to eventually call done(...) -- or not
@@ -220,7 +118,7 @@ export default {
         //    be a duplicate
     }
   }
-
+}
 
 </script>
 

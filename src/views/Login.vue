@@ -1,7 +1,7 @@
 <template>
 <div class="fundo justify-center row items-center" :style="`height:${sizes()}px;`">
     <title>Entre</title>
-    <q-card class=" card q-mt-sm" style="max-width:600px;">
+    <q-card class=" card no-margin no-padding">
         <h3 class="q-mt-sm">Entrar</h3>
         <q-input class="q-ma-sm" v-model="email" label="Email:" autofocus style="weight:200px" :style="this.$q.platform.is.ios ? 'font-size:17px' : ''" />
         <q-input class="q-ma-sm" type="password" v-model="senha" label="Senha:" @keypress.enter="login" style="weight:200px" :style="this.$q.platform.is.ios ? 'font-size:17px' : ''" />
@@ -93,7 +93,7 @@ export default {
 <style>
 .card{
     width: 90%;
-    margin-bottom: 20%;
+    height: 90px;
 }
 .fundo{
     background-image: url("/../assets/money.jpg");

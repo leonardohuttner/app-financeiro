@@ -18,6 +18,9 @@ export default new Vuex.Store({
             salario:'',
             wallet:[],
             categories:[]
+        },
+        funcionalidades:{
+            
         }
     },
     mutations:{

@@ -1,6 +1,6 @@
 <template>
 <q-card class="container">
-    <h4>Bem vindo {{this.$store.getters.getNome}}</h4>
+    <h4 style="font-size: 1.8rem;">Bem vindo {{this.$store.getters.getNome}}</h4>
     <Lista :expenses="this.listCompleta()" />
     <DialogAdd />
 </q-card>

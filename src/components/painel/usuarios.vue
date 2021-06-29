@@ -34,7 +34,6 @@
           </q-item-section>
           <q-item-actions horizontal>
             <toggle-button v-model="funcionalidade.valor" @change="ativarDesativar(funcionalidade.id)"/>
-            <q-btn flat round icon="mode_edit" @click="editFuncionalidade = true"/>
             <q-btn flat round icon="delete" @click="deletarFuncionalidade(funcionalidade.id)"/>
           </q-item-actions>
         </q-item>
@@ -43,9 +42,12 @@
 
     <q-list bordered class="rounded-borders" style="max-width: 100%" >
       <q-item-label header>Usuarios</q-item-label>
-
+      <q-btn icon="add" color="green" :label="isMobile() ? '' : 'Cadastrar novo usuario'" class="full-width" @click="novo_usuario = !novo_usuario"/>
       <q-item clickable v-ripple v-for="usuario in usuarios" :key="usuario.id">
         <q-item-section avatar>
+        <q-item-section side top>
+          <q-badge floating align="top" label="Administrador" v-if="usuario.isAdmin == 1"/>
+        </q-item-section>
           <q-avatar>
             <img src="https://github.com/leonardohuttner.png">
           </q-avatar>
@@ -58,30 +60,36 @@
           </q-item-label>
         </q-item-section>
 
-        <q-item-section side top>
-          <q-badge floating align="top" label="Administrador" v-if="usuario.isAdmin == 1"/>
-        </q-item-section>
         <q-item-actions>
-            <q-btn flat round icon="mode_edit"/>
+            <q-btn flat round icon="mode_edit" @click="dialog_edita_usuario = !dialog_edita_usuario,editar_usuario(usuario.id_usuario)"/>
             <q-btn flat round icon="delete"/>
         </q-item-actions>
       </q-item>
 
       <q-separator inset="item" />
     </q-list>
-    
+    <q-dialog v-model="novo_usuario">
+      <registroUsuarios/>
+    </q-dialog>
+    <q-dialog v-model="dialog_edita_usuario">
+      <editaUsuario :usuario="this.usuario"/>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import dateTime from 'date-and-time'
-
+import registroUsuarios from '../registrar/register.vue'
+import editaUsuario from './Modal editar/editar_usuario.vue'
 export default {
-  components: {  },
+  components: { registroUsuarios,editaUsuario },
     data(){
         return {
           usuarios:[],
+          usuario:{},
           funcionalidades:[],
+          novo_usuario: false,
+          dialog_edita_usuario: false
         }
     },
     created(){
@@ -158,6 +166,10 @@ export default {
            })
           })
         this.popularFuncionalidades()
+    },
+    editar_usuario(id){
+      const usuario_atualizar = this.usuarios.filter(e => e.id_usuario == id)
+      this.usuario = usuario_atualizar[0]
     }
   }, 
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Painel administrativo</h2>
+    <h2 style="font-size: 2.5rem;">Painel administrativo</h2>
     <div>
       <div class="row">
         <q-card class="col bg-purple text-white q-ma-xs">

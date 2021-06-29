@@ -2,17 +2,17 @@
 <div>
     <div class="row">
         <q-card class="col shadow-2 bg-blue-3 text-white q-pa-xs q-ma-xs">
-            <div class="text-subtitle2">Saldo:</div>
-            <h3>R${{formataBRL(this.getReceitas()-this.getDespesas())}} </h3>
+            <div class="text-subtitle-2">Saldo:</div>
+            <h3 style="font-size: 1.5rem;">R${{formataBRL(this.getReceitas()-this.getDespesas())}} </h3>
         </q-card>
         <q-card class="col shadow-2 bg-green-4 text-white q-pa-xs q-ma-xs">
-            <div class="text-subtitle2">Receitas:</div>
-            <h3>R${{formataBRL(this.getReceitas())}} </h3>
+            <div class="text-subtitle-2">Receitas:</div>
+            <h3 style="font-size: 1.5rem;">R${{formataBRL(this.getReceitas())}} </h3>
         </q-card>
 
         <q-card class="col shadow-2 bg-red-3 text-white q-pa-xs q-ma-xs">
-            <div class="text-subtitle2">Despesas:</div>
-            <h3>R${{formataBRL(this.getDespesas())}} </h3>
+            <div class="text-subtitle-2">Despesas:</div>
+            <h3 style="font-size: 1.5rem;">R${{formataBRL(this.getDespesas())}} </h3>
         </q-card>
     </div>
     <div class="row">
@@ -42,6 +42,7 @@
         </q-card>
     </div>
     <div v-else class="col-12 q-pa-md">
+        <q-select />
         <q-table title="Lançamentos:" :data="expenses" dense :columns="columns" row-key="name" />
     </div>
 </div>

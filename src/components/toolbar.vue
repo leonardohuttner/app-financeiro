@@ -1,5 +1,5 @@
 <template>
-<q-layout view="lHh lpR fff">
+<q-layout view="lHh lpR fFf">
     <q-header elevated :class="isAdmin ? 'bg-red-9' : 'bg-grey-9'">
         <q-toolbar v-show="autenticado()">
             <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu" />
@@ -63,7 +63,7 @@
     <h1 v-if="autenticado()"></h1>
         <router-view></router-view>
     </q-page-container>
-    <q-footer v-if="isMobile && autenticado" class="bg-grey-9">
+    <q-footer v-if="isMobile && autenticado" class="mobile bg-grey-9">
         <div class="q-gutter-y-md" style="max-width: 1500px">
             <q-tabs inline-label align="justify">
                 <q-route-tab icon="timeline" to="/geral" exact />
@@ -89,7 +89,7 @@ export default {
             this.$store.commit('LIMPA')
             sessionStorage.removeItem('usuario')
             sessionStorage.removeItem('despesas')
-            sessionStorage.removeItem('config')
+            //sessionStorage.removeItem('config')
             this.$router.push('/login')
         },
         autenticado(){
