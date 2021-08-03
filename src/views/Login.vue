@@ -1,7 +1,7 @@
 <template>
 <div class="fundo justify-center row items-center" :style="`height:${sizes()}px;`">
     <title>Entre</title>
-    <q-card class=" card no-margin no-padding">
+    <q-card class=" card no-margin no-padding" style="height:320px;">
         <h3 class="q-mt-sm">Entrar</h3>
         <q-input class="q-ma-sm" v-model="email" label="Email:" autofocus style="weight:200px" :style="this.$q.platform.is.ios ? 'font-size:17px' : ''" />
         <q-input class="q-ma-sm" type="password" v-model="senha" label="Senha:" @keypress.enter="login" style="weight:200px" :style="this.$q.platform.is.ios ? 'font-size:17px' : ''" />
@@ -15,7 +15,7 @@
 
 <script>
 import mixins from '../mixins/mixins'
-
+import serviceUser from '../services/usuario'
 export default {
     mixins:[
         mixins
@@ -30,56 +30,23 @@ export default {
     created(){
         if(sessionStorage.getItem('usuario')){
             const usuario = sessionStorage.getItem('usuario')
-            this.$store.commit('LOGIN',usuario)
+            this.$store.commit('LOGIN',usuario) 
+            if(sessionStorage.getItem('funcionalidades')){
+                const funcionalidades = sessionStorage.getItem('funcionalidades')
+                console.table(funcionalidades)
+                // this.$store.commit('SALVA_ESTADO_FUNCIONALIDADE',funcionalidades)
+            }
             this.$router.push('/geral')
         }
     },
     methods:{
-    login() {
-            const email = this.email
-            const senha = this.senha
-            this.$http.post('/usuarios/login',{email,senha},{headers: {
-            'Content-Type': 'application/json'}
-        })
-            .then(async (res)=>{
-                const usuario = res.data.usuario
-                this.$store.commit('LOGIN',usuario)
-                await this.carregaDados()
-                //await this.carregaConfig(idUser)
-                await this.sessaoUser(usuario)
-                this.$router.push('/geral')
-            }).catch((err)=>{
-                console.log(err)
-            })
+    async login() {
+        try{
+            await serviceUser.login(this.email,this.senha)
+        }catch(err){
+            console.log(err)
+        }
     },
-    
-    carregaDados(){
-          const token = this.$store.getters.tokenUser
-          const id_usuario = this.$store.getters.idUser
-          this.$http.get(`/lancamentos/${id_usuario}`,{headers:{'auth':`${token}`}})
-          .then((res)=>{
-              const despesas = res.data
-              this.$store.commit('COMPLETADADOS',despesas)
-              sessionStorage.setItem('despesas',JSON.stringify(despesas))
-          }).catch((err)=>{
-              console.log(err)
-          })
-      },
-    //   carregaConfig(id_usuario){
-    //     const token = this.$store.getters.tokenUser
-    //     this.$http.get(`/config/${id_usuario}`,{headers:{'auth':`${token}`}})
-    //     .then((res)=>{
-    //         const config = res.data
-    //         sessionStorage.setItem('config',JSON.stringify(config))
-    //         this.$store.commit('CARREGACONFIG',config)
-    //     }).catch((err)=>{
-    //         console.log(err)
-    //     })
-    //   },
-    sessaoUser(user){
-              const usuarioAtual = JSON.stringify(user)
-              sessionStorage.setItem('usuario',usuarioAtual)
-      },
     sizes(){
         return document.documentElement.clientHeight
         },

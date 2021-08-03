@@ -19,8 +19,12 @@ export default new Vuex.Store({
             wallet:[],
             categories:[]
         },
-        funcionalidades:{
-            
+        funcionalidade:{
+            painel_admin: 0,
+            menu_geral: 0,
+            menu_cartao: 0,
+            menu_configuracao: 0,
+            menu_dinheiro: 0
         }
     },
     mutations:{
@@ -64,6 +68,15 @@ export default new Vuex.Store({
             state.Config.wallet=[]
             state.Config.categories=[]
     },
+    SALVA_ESTADO_FUNCIONALIDADE(state,array){
+        array.map(funcionalidade => {
+            if(funcionalidade.nome === 'painel') state.funcionalidade.painel_admin = funcionalidade.valor
+            else if(funcionalidade.nome === 'geral') state.funcionalidade.menu_geral = funcionalidade.valor
+            else if(funcionalidade.nome === 'cartao') state.funcionalidade.menu_cartao = funcionalidade.valor
+            else if(funcionalidade.nome === 'dinheiro') state.funcionalidade.menu_dinheiro = funcionalidade.valor
+            else if(funcionalidade.nome === 'configuracoes') state.funcionalidade.menu_configuracao = funcionalidade.valor
+        })   
+    }
 },
     actions:{
         carregaDados(){
@@ -77,6 +90,11 @@ export default new Vuex.Store({
         idUser: state => {return state.usuario.id_usuario},
         logado: state => {return state.usuario.logado},
         isAdmin: state => {return state.usuario.isAdmin},
-        getNome: state => { return state.usuario.nome}
+        getNome: state => { return state.usuario.nome},
+        permissao_painel: state => { return state.funcionalidade.painel_admin},
+        permissao_cartao: state => { return state.funcionalidade.menu_cartao},
+        permissao_geral: state => { return state.funcionalidade.menu_geral},
+        permissao_dinheiro: state => { return state.funcionalidade.menu_dinheiro},
+        permissao_configuracao: state => { return state.funcionalidade.menu_configuracao},
     }
 })

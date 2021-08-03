@@ -43,7 +43,7 @@
     </div>
     <div v-else class="col-12 q-pa-md">
         <q-select />
-        <q-table title="Lançamentos:" :data="expenses" dense :columns="columns" row-key="name" />
+        <q-table title="Lançamentos:" hide-header :data="expenses" dense :columns="columns" row-key="name" />
     </div>
 </div>
     
@@ -63,9 +63,9 @@ export default {
                 series:[this.getReceitas(),this.getDespesas()],
                 options:{
                     labels:['Receitas','Despesas'],
-                    responsive:[ {
-                        breakpoint:400
-                    }]
+                    // responsive:[ {
+                    //     breakpoint:400
+                    // }]
                     }
                 },
             bar:{
